@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "421456223480",
+    "project_id": "jawan-pakisatan-flutter-app",
+    "storage_bucket": "jawan-pakisatan-flutter-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:421456223480:android:0ad0739376d26f34deaf0d",
+        "android_client_info": {
+          "package_name": "com.example.jawan_pakistan_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "421456223480-fl7o1or55hpcr5qlp01bmch11s23dt3j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.jawan_pakistan_app",
+            "certificate_hash": "ca9a115463f0e796d52bacc666b52ad9eed2e08b"
+          }
+        },
+        {
+          "client_id": "421456223480-le47u3qg6vcknj164f3nqbt3479rgecj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA07DGD16MY7HE84IYLh7omX78I4q7CE2s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "421456223480-le47u3qg6vcknj164f3nqbt3479rgecj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
