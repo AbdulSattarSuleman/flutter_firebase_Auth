@@ -120,8 +120,8 @@ class LoginScreen extends StatelessWidget {
                           content: Text("Please Fill Required Field")));
                     } else {
                       User? result = await AuthService()
-                          .signInWithEmailAndPassword(
-                              emailController.text, passwordController.text);
+                          .signInWithEmailAndPassword(emailController.text,
+                              passwordController.text, context);
                       if (result != null) {
                         emailController.clear();
                         passwordController.clear();

@@ -121,8 +121,10 @@ class SignupScreen extends StatelessWidget {
                     } else {
                       User? result = await AuthService()
                           .registerUserWithEmailAndPassword(
-                              emailController.text, passwordController.text);
-                      if (result != true) {
+                              emailController.text,
+                              passwordController.text,
+                              context);
+                      if (result != null) {
                         Navigator.pushNamed(context, LoginScreen.id);
                         print(emailController.text);
                         print(passwordController.text);
