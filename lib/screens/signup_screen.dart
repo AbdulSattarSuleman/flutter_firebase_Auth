@@ -9,12 +9,22 @@ import 'package:jawan_pakistan_app/services/auth_service.dart';
 
 import '../style.dart';
 
-class SignupScreen extends StatelessWidget {
+class SignupScreen extends StatefulWidget {
   // const SignupScreen({Key? key}) : super(key: key);
 
   static String id = "/RegisterScreen";
+
+  @override
+  State<SignupScreen> createState() => _SignupScreenState();
+}
+
+class _SignupScreenState extends State<SignupScreen> {
   TextEditingController emailController = TextEditingController();
+
   TextEditingController passwordController = TextEditingController();
+
+  // loader default false
+  bool loader = false;
 
   @override
   Widget build(BuildContext context) {
@@ -107,36 +117,45 @@ class SignupScreen extends StatelessWidget {
                 height: 10,
               ),
               //Login  Button
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      shape: StadiumBorder(),
-                      elevation: 10,
-                      fixedSize: Size(size.width * 0.9, 50)),
-                  onPressed: () async {
-                    if (emailController.text == '' ||
-                        passwordController.text == '') {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          backgroundColor: Colors.red,
-                          content: Text("Please Fill the Required Field.")));
-                    } else {
-                      User? result = await AuthService()
-                          .registerUserWithEmailAndPassword(
-                              emailController.text,
-                              passwordController.text,
-                              context);
-                      if (result != null) {
-                        Navigator.pushNamed(context, LoginScreen.id);
-                        print(emailController.text);
-                        print(passwordController.text);
-                      }
-                      emailController.clear();
-                      passwordController.clear();
-                    }
-                  },
-                  child: Text(
-                    'Sign Up',
-                    style: loginbutton,
-                  )),
+              loader
+                  ? CircularProgressIndicator()
+                  : ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          shape: StadiumBorder(),
+                          elevation: 10,
+                          fixedSize: Size(size.width * 0.9, 50)),
+                      onPressed: () async {
+                        setState(() {
+                          loader = true;
+                        });
+                        if (emailController.text == '' ||
+                            passwordController.text == '') {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              backgroundColor: Colors.red,
+                              content:
+                                  Text("Please Fill the Required Field.")));
+                        } else {
+                          User? result = await AuthService()
+                              .registerUserWithEmailAndPassword(
+                                  emailController.text,
+                                  passwordController.text,
+                                  context);
+                          if (result != null) {
+                            Navigator.pushNamed(context, LoginScreen.id);
+                            print(emailController.text);
+                            print(passwordController.text);
+                          }
+                          emailController.clear();
+                          passwordController.clear();
+                        }
+                        setState(() {
+                          loader = false;
+                        });
+                      },
+                      child: Text(
+                        'Sign Up',
+                        style: loginbutton,
+                      )),
               // Google/facebook Authentication
               SizedBox(
                 height: 10,

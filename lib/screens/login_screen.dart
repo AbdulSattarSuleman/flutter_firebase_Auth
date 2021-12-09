@@ -11,12 +11,23 @@ import 'package:jawan_pakistan_app/services/auth_service.dart';
 
 import '../style.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   // const LoginScreen({Key? key}) : super(key: key);
 
   static String id = "/loginScreen";
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  // Controllers
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  // Loader default set false
+  bool loader = false;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -108,31 +119,40 @@ class LoginScreen extends StatelessWidget {
                 height: 10,
               ),
               //Login  Button
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      shape: StadiumBorder(),
-                      elevation: 10,
-                      fixedSize: Size(size.width * 0.9, 50)),
-                  onPressed: () async {
-                    if (emailController.text == '' ||
-                        passwordController.text == '') {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text("Please Fill Required Field")));
-                    } else {
-                      User? result = await AuthService()
-                          .signInWithEmailAndPassword(emailController.text,
-                              passwordController.text, context);
-                      if (result != null) {
-                        emailController.clear();
-                        passwordController.clear();
-                        Navigator.pushNamed(context, SplashScreen.id);
-                      }
-                    }
-                  },
-                  child: Text(
-                    'Login',
-                    style: loginbutton,
-                  )),
+              //loader
+              loader
+                  ? CircularProgressIndicator()
+                  : ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          shape: StadiumBorder(),
+                          elevation: 10,
+                          fixedSize: Size(size.width * 0.9, 50)),
+                      onPressed: () async {
+                        setState(() {
+                          loader = true;
+                        });
+                        if (emailController.text == '' ||
+                            passwordController.text == '') {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text("Please Fill Required Field")));
+                        } else {
+                          User? result = await AuthService()
+                              .signInWithEmailAndPassword(emailController.text,
+                                  passwordController.text, context);
+                          if (result != null) {
+                            emailController.clear();
+                            passwordController.clear();
+                            Navigator.pushNamed(context, SplashScreen.id);
+                          }
+                        }
+                        setState(() {
+                          loader = false;
+                        });
+                      },
+                      child: Text(
+                        'Login',
+                        style: loginbutton,
+                      )),
               // Google/facebook Authentication
               SizedBox(
                 height: 10,
