@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
+import 'package:jawan_pakistan_app/screens/home_screen.dart';
 import 'package:jawan_pakistan_app/screens/login_screen.dart';
 import 'package:jawan_pakistan_app/services/auth_service.dart';
 
@@ -141,7 +142,9 @@ class _SignupScreenState extends State<SignupScreen> {
                                   passwordController.text,
                                   context);
                           if (result != null) {
-                            Navigator.pushNamed(context, LoginScreen.id);
+                            // Navigator.pushNamedAndRemoveUntil(context);
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, HomeScreen.id, (route) => false);
                             print(emailController.text);
                             print(passwordController.text);
                           }

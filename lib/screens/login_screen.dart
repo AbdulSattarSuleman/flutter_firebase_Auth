@@ -5,8 +5,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
+import 'package:jawan_pakistan_app/screens/home_screen.dart';
 import 'package:jawan_pakistan_app/screens/signup_screen.dart';
-import 'package:jawan_pakistan_app/screens/splash_screen.dart';
 import 'package:jawan_pakistan_app/services/auth_service.dart';
 
 import '../style.dart';
@@ -142,7 +142,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           if (result != null) {
                             emailController.clear();
                             passwordController.clear();
-                            Navigator.pushNamed(context, SplashScreen.id);
+                            // Navigator.pushNamed(context, SplashScreen.id);
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, HomeScreen.id, (route) => false);
                           }
                         }
                         setState(() {

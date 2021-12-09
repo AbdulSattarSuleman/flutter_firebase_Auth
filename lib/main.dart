@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:jawan_pakistan_app/screens/home_screen.dart';
 import 'package:jawan_pakistan_app/screens/login_screen.dart';
 import 'package:jawan_pakistan_app/screens/signup_screen.dart';
 import 'package:jawan_pakistan_app/screens/splash_screen.dart';
+import 'package:jawan_pakistan_app/services/auth_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,11 +24,20 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
       ),
-      initialRoute: SignupScreen.id,
+      home: StreamBuilder(
+        stream: AuthService().firebaseAuth.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const HomeScreen();
+          }
+          return SignupScreen();
+        },
+      ),
       routes: {
-        SplashScreen.id: (context) => SplashScreen(),
+        SplashScreen.id: (context) => const SplashScreen(),
         SignupScreen.id: (context) => SignupScreen(),
         LoginScreen.id: (context) => LoginScreen(),
+        HomeScreen.id: (context) => const HomeScreen(),
       },
     );
   }
