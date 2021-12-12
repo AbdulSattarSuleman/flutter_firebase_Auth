@@ -26,7 +26,8 @@ class _SignupScreenState extends State<SignupScreen> {
 
   // loader default false
   bool loader = false;
-
+  // validate TextField
+  bool _validate = false;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -87,7 +88,9 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       TextField(
                         controller: emailController,
+                        autocorrect: true,
                         decoration: InputDecoration(
+                            errorText: _validate ? "Enter Email" : null,
                             hintText: "Email",
                             prefixIcon: Icon(
                               Icons.person_outline,
@@ -101,6 +104,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         controller: passwordController,
                         obscureText: true,
                         decoration: InputDecoration(
+                            errorText: _validate ? "Enter Password" : null,
                             hintText: "Password",
                             prefixIcon: Icon(
                               Icons.lock_outline_rounded,
@@ -127,6 +131,13 @@ class _SignupScreenState extends State<SignupScreen> {
                           fixedSize: Size(size.width * 0.9, 50)),
                       onPressed: () async {
                         setState(() {
+                          // Validation
+                          emailController.text.isEmpty
+                              ? _validate = true
+                              : _validate = false;
+                          // passwordController.text.isEmpty
+                          //     ? _validate = true
+                          //     : _validate = false;
                           loader = true;
                         });
                         if (emailController.text == '' ||
@@ -186,41 +197,61 @@ class _SignupScreenState extends State<SignupScreen> {
                       )),
                 ),
               ]),
-
               Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: SignInButton(
-                        Buttons.Google,
-                        elevation: 10,
-                        text: "Google".toUpperCase(),
-                        shape: StadiumBorder(),
-                        onPressed: () {},
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: SignInButton(
-                        Buttons.Facebook,
-                        elevation: 10,
-                        text: "Facebook".toUpperCase(),
-                        shape: StadiumBorder(),
-                        onPressed: () {},
-                      ),
-                    ),
-                    // ElevatedButton.icon(
-                    //     onPressed: () {},
-                    //     icon: Icon(Icons.mail),
-                    //     label: Text('Gogle'.toUpperCase())),
-                  ],
+                padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: loader
+                      ? CircularProgressIndicator()
+                      : SignInButton(Buttons.Google,
+                          elevation: 4,
+                          padding: EdgeInsets.all(4),
+                          shape: StadiumBorder(),
+                          text: "Continue with Google", onPressed: () async {
+                          setState(() {
+                            loader = true;
+                          });
+                          AuthService().signInWithGoogle();
+                          setState(() {
+                            loader = false;
+                          });
+                        }),
                 ),
               ),
+              // Padding(
+              //   padding: const EdgeInsets.only(left: 20, right: 20),
+              //   child: Row(
+              //     crossAxisAlignment: CrossAxisAlignment.center,
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       Expanded(
+              //         child: SignInButton(
+              //           Buttons.Google,
+              //           elevation: 10,
+              //           text: "Google".toUpperCase(),
+              //           shape: StadiumBorder(),
+              //           onPressed: () {},
+              //         ),
+              //       ),
+              //       SizedBox(
+              //         width: 10,
+              //       ),
+              //       Expanded(
+              //         child: SignInButton(
+              //           Buttons.Facebook,
+              //           elevation: 10,
+              //           text: "Facebook".toUpperCase(),
+              //           shape: StadiumBorder(),
+              //           onPressed: () {},
+              //         ),
+              //       ),
+              //       // ElevatedButton.icon(
+              //       //     onPressed: () {},
+              //       //     icon: Icon(Icons.mail),
+              //       //     label: Text('Gogle'.toUpperCase())),
+              //     ],
+              //   ),
+              // ),
               // sign up
               Container(
                 width: size.width,
